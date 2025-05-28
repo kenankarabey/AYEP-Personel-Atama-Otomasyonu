@@ -9,9 +9,40 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import adaletLogo from '../assets/adalet-logo.png';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseClient';
 
 const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [sicilNo, setSicilNo] = useState('');
+  const [sifre, setSifre] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    setLoading(true);
+    // Eski kullanıcıyı sil
+    localStorage.removeItem('user');
+    // Supabase'den kullanıcıyı çek
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .eq('sicil_no', sicilNo)
+      .eq('sifre', sifre)
+      .single();
+    setLoading(false);
+    if (error || !data) {
+      setError('Sicil No veya şifre hatalı!');
+      return;
+    }
+    // Doğrudan Supabase'den gelen kullanıcıyı kaydet
+    localStorage.setItem('user', JSON.stringify(data));
+    console.log('Kaydedilen kullanıcı:', data); // LOG
+    navigate('/profile');
+  };
 
   return (
     <div className="login-root">
@@ -28,18 +59,19 @@ const LoginPage: React.FC = () => {
         <div className="login-right">
           <div className="login-welcome">Personel Tayin Talebi Sistemine Hoş Geldiniz</div>
           <div className="login-sub">Devam etmek için lütfen giriş yapın</div>
-          <form className="login-form">
+          <form className="login-form" onSubmit={handleSubmit}>
             <div className="login-input-group">
               <HowToRegIcon className="login-icon" />
-              <input type="text" placeholder="Sicil No" className="login-input" />
+              <input type="text" placeholder="Sicil No" className="login-input" value={sicilNo} onChange={e => setSicilNo(e.target.value)} required />
             </div>
             <div className="login-input-group">
               <LockIcon className="login-icon" />
-              <input type={showPassword ? 'text' : 'password'} placeholder="Şifre" className="login-input" />
+              <input type={showPassword ? 'text' : 'password'} placeholder="Şifre" className="login-input" value={sifre} onChange={e => setSifre(e.target.value)} required />
               <span className="login-eye" onClick={() => setShowPassword(v => !v)} style={{cursor:'pointer'}}>
                 {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
               </span>
             </div>
+            {error && <div style={{color:'red', marginBottom:8}}>{error}</div>}
             <button type="submit" className="login-btn">
               <LoginIcon style={{marginRight: 6}} /> Giriş Yap
             </button>
