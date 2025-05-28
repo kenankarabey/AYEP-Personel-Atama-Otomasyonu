@@ -1,0 +1,395 @@
+/* Talep Sayfası Modern Flat Tasarım */
+.talepRoot {
+  min-height: 100vh;
+  background: #f6f7fa;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0;
+}
+.talepCardWrapper {
+  position: relative;
+  width: 1200px;
+  max-width: 98vw;
+  margin-bottom: 32px;
+}
+.talepCard {
+  background: #fff;
+  color: #232a4d;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+  padding: 32px 40px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 320px;
+  max-width: 1100px;
+  width: 100%;
+  transition: box-shadow 0.25s, transform 0.18s;
+}
+.talepCard:hover, .talepCard:focus-within {
+  box-shadow: 0 8px 40px rgba(22,26,74,0.18);
+  transform: scale(1.012);
+}
+.talepTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #d7292a;
+}
+.talepForm {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 18px;
+}
+.talepFormGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+  width: 100%;
+  align-items: stretch;
+}
+.talepFormGroup label {
+  font-size: 1rem;
+  color: #232a4d;
+  font-weight: 500;
+}
+.talepFormGroup input,
+.talepFormGroup select,
+.talepFormGroup textarea,
+.fileBox,
+.adliyeInput {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+}
+.talepFormGroup input:focus,
+.talepFormGroup select:focus,
+.talepFormGroup textarea:focus {
+  border: 1.5px solid #d7292a;
+  outline: none;
+}
+.talepFormGroup input:disabled,
+.talepFormGroup select:disabled {
+  background: #f0f0f0;
+  color: #aaa;
+}
+.talepSaveBtn {
+  background: linear-gradient(135deg, #d7292a 0%, #ff4040 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 28px;
+  font-size: 1.08rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s, box-shadow 0.18s, transform 0.13s;
+  margin-top: 0;
+  box-shadow: 0 2px 8px rgba(215,41,42,0.10);
+}
+.talepSaveBtn:active {
+  background: #ff4040;
+  transform: scale(0.97);
+  box-shadow: 0 1px 2px rgba(215,41,42,0.10);
+}
+.talepSaveBtn:hover {
+  background: #ff4040;
+}
+.talepSaveBtnSmall {
+  padding: 8px 18px;
+  font-size: 1rem;
+  border-radius: 8px;
+  min-width: unset;
+  box-shadow: 0 2px 8px rgba(215,41,42,0.10);
+  margin-top: 0;
+}
+.talepTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+.talepTable th, .talepTable td {
+  padding: 8px;
+  border: 1px solid #eee;
+  text-align: left;
+}
+.talepTable th {
+  background: #f6f7fa;
+  color: #232a4d;
+  font-weight: 600;
+}
+.talepTable tr:nth-child(even) {
+  background: #fafbfc;
+}
+@media (max-width: 1000px) {
+  .talepCardWrapper, .talepCard {
+    width: 98vw;
+    min-width: unset;
+    max-width: 100vw;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+@media (max-width: 600px) {
+  .talepCardWrapper {
+    padding: 0;
+    margin-bottom: 16px;
+  }
+  .talepCard {
+    padding: 12px 2px 10px 2px;
+    border-radius: 10px;
+  }
+  .talepTitle {
+    font-size: 1.2rem;
+  }
+  .talepForm {
+    max-width: 100vw;
+    padding: 0;
+  }
+}
+.adliyeChipContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.adliyeChip {
+  display: flex;
+  align-items: center;
+  background: #e3e9f9;
+  color: #232a4d;
+  border-radius: 18px;
+  padding: 6px 16px 6px 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 2px 8px rgba(22,26,74,0.10);
+  transition: background 0.2s, transform 0.18s, opacity 0.18s;
+  animation: chipIn 0.18s cubic-bezier(.4,0,.2,1);
+}
+@keyframes chipIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.adliyeChip.removing {
+  opacity: 0;
+  transform: scale(0.7);
+  transition: opacity 0.18s, transform 0.18s;
+}
+.adliyeChipRemove {
+  background: none;
+  border: none;
+  color: #d7292a;
+  margin-left: 6px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  transition: color 0.18s;
+}
+.adliyeChipRemove:hover {
+  color: #ff4040;
+}
+
+.adliyeInput {
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #e5e7eb;
+  font-size: 1.08rem;
+  background: #fff;
+  color: #232a4d;
+  margin-bottom: 0;
+  margin-top: 0;
+  box-shadow: 0 2px 8px rgba(22,26,74,0.06);
+  transition: border 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+}
+.adliyeInput:focus {
+  border: 1.5px solid #d7292a;
+  outline: none;
+  box-shadow: 0 4px 16px rgba(215,41,42,0.10);
+}
+
+.fileBox {
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  padding: 14px 16px;
+  font-size: 1.08rem;
+  color: #232a4d;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(22,26,74,0.06);
+  margin-bottom: 0;
+  margin-top: 0;
+  transition: border 0.18s, box-shadow 0.18s;
+}
+.fileBox:hover, .fileBox:focus {
+  border: 1.5px solid #d7292a;
+  box-shadow: 0 4px 16px rgba(215,41,42,0.10);
+}
+.fileBox span {
+  color: #232a4d;
+  font-weight: 500;
+  width: 100%;
+  text-align: left;
+  user-select: none;
+  font-size: 1.08rem;
+  opacity: 1;
+}
+.fileBox .placeholder {
+  color: #888;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+.adliyeFormDropdownWrapper {
+  position: relative;
+  width: 100%;
+}
+.adliyeDropdown {
+  position: absolute;
+  left: 0;
+  top: 100%;
+  z-index: 100;
+  background: #fff;
+  box-shadow: 0 8px 32px rgba(22,26,74,0.18);
+  border-radius: 14px;
+  margin-top: 4px;
+  width: 100%;
+  max-height: 240px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  border: 1.5px solid #e5e7eb;
+  animation: dropdownIn 0.18s cubic-bezier(.4,0,.2,1);
+}
+.adliyeDropdown::-webkit-scrollbar {
+  height: 0 !important;
+  width: 8px;
+}
+.adliyeDropdown::-webkit-scrollbar-thumb {
+  background: #e5e7eb;
+  border-radius: 8px;
+}
+.adliyeDropdownItem {
+  display: flex;
+  align-items: center;
+  padding: 14px 18px;
+  cursor: pointer;
+  font-size: 1.05rem;
+  color: #232a4d;
+  border-radius: 10px;
+  margin: 2px 6px;
+  transition: background 0.18s, transform 0.18s, box-shadow 0.18s, color 0.18s;
+  background: #fff;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(22,26,74,0.04);
+}
+.adliyeDropdownItem:hover {
+  background: #f6f7fa;
+  transform: scale(1.035);
+  box-shadow: 0 4px 16px rgba(22,26,74,0.10);
+}
+.adliyeDropdownItem.selected {
+  background: linear-gradient(90deg, #d7292a 0%, #ff4040 100%);
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 4px 18px rgba(215,41,42,0.13);
+  transform: scale(1.025);
+}
+.fileInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 2px;
+}
+.fileInput {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1.5px solid #e5e7eb;
+  background: #f6f7fa;
+  color: #232a4d;
+  font-size: 1rem;
+  transition: border 0.18s, box-shadow 0.18s;
+  box-shadow: 0 1px 4px rgba(22,26,74,0.04);
+}
+.fileInput:focus {
+  border: 1.5px solid #d7292a;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(215,41,42,0.10);
+}
+.fileInputLabel {
+  font-size: 1rem;
+  color: #232a4d;
+  font-weight: 500;
+  margin-right: 8px;
+}
+@media (max-width: 600px) {
+  .adliyeChip {
+    font-size: 0.93rem;
+    padding: 4px 10px 4px 7px;
+  }
+  .adliyeDropdownItem {
+    font-size: 0.97rem;
+    padding: 10px 10px;
+  }
+  .adliyeInput {
+    font-size: 0.97rem;
+    height: 42px;
+    min-height: 42px;
+    max-height: 42px;
+  }
+  .fileInput {
+    font-size: 0.95rem;
+    padding: 8px 10px;
+  }
+}
+.talepFormGroup textarea {
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1.5px solid #e5e7eb;
+  font-size: 1.08rem;
+  background: #fff;
+  color: #232a4d;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(22,26,74,0.06);
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+  min-height: 50px;
+  height: 100px;
+  resize: vertical;
+  display: flex;
+  align-items: center;
+}
+.talepFormGroup textarea:focus {
+  border: 1.5px solid #d7292a;
+  outline: none;
+  box-shadow: 0 4px 16px rgba(215,41,42,0.10);
+}
+.talepSaveBtnSmall:hover, .talepSaveBtn:hover {
+  background: #fff !important;
+  color: #d7292a !important;
+  transform: translateY(-3px);
+  border: none;
+}
+.talepDesc {
+  font-size: 1.1rem;
+  color: #232a4d;
+  margin-top: 12px;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+
+

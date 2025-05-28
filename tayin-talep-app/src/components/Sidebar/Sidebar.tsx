@@ -29,7 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
   const location = useLocation();
   const [user, setUser] = useState({ ad_soyad: '', foto_url: '' });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileSidebarState, setMobileSidebarState] = useState<'closed' | 'open' | 'closing'>('closed');
 
   useEffect(() => {
     const localUser = localStorage.getItem('user');
@@ -49,12 +49,39 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
     // Ekran boyutunu dinle
     const handleResize = () => setIsMobile(window.innerWidth <= 900);
     window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    // localStorage değişimini dinle
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === 'user') {
+        const updatedUser = localStorage.getItem('user');
+        if (updatedUser) {
+          try {
+            const parsed = JSON.parse(updatedUser);
+            setUser({ ad_soyad: parsed.ad_soyad, foto_url: parsed.foto_url });
+          } catch {}
+        }
+      }
+    };
+    window.addEventListener('storage', handleStorage);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('storage', handleStorage);
+    };
   }, [setCollapsed]);
 
   // Mobilde menü açma/kapama
-  const handleMobileToggle = () => setMobileOpen(v => !v);
-  const handleOverlayClick = () => setMobileOpen(false);
+  const handleMobileToggle = () => {
+    if (mobileSidebarState === 'open') {
+      setMobileSidebarState('closing');
+    } else {
+      setMobileSidebarState('open');
+    }
+  };
+  const handleOverlayClick = () => setMobileSidebarState('closing');
+  const handleSidebarAnimationEnd = () => {
+    if (mobileSidebarState === 'closing') {
+      setMobileSidebarState('closed');
+    }
+  };
 
   const handleCollapse = () => {
     setCollapsed(!collapsed);
@@ -70,25 +97,36 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
     return (
       <>
         {/* Sadece buton görünür */}
-        {!mobileOpen && (
+        {mobileSidebarState === 'closed' && (
           <button className={styles.mobileMenuButton} onClick={handleMobileToggle}>
             <MenuIcon />
           </button>
         )}
-        {/* Sidebar ve overlay */}
-        {mobileOpen && (
+        {(mobileSidebarState === 'open' || mobileSidebarState === 'closing') && (
           <>
             <div className={styles.mobileSidebarOverlay} onClick={handleOverlayClick}></div>
-            <div className={styles.mobileSidebar}>
+            <div
+              className={
+                styles.mobileSidebar +
+                (mobileSidebarState === 'closing' ? ' ' + styles.slideOutSidebar : '')
+              }
+              onAnimationEnd={handleSidebarAnimationEnd}
+            >
               <button className={styles.mobileMenuClose} onClick={handleMobileToggle}>
                 <MenuIcon />
               </button>
               <nav className={styles.sidebarNav}>
                 <ul>
                   <li>
-                    <NavLink to="/talep" className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
+                    <NavLink to="/taleplerim" className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
                       <ListAltOutlinedIcon />
-                      <span>Talepte bulun</span>
+                      <span>Taleplerim</span>
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/talep-olustur" className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
+                      <ListAltOutlinedIcon />
+                      <span>Talepte Bulun</span>
                     </NavLink>
                   </li>
                   <li>
@@ -157,9 +195,15 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
       <nav className={styles.sidebarNav}>
         <ul>
           <li>
-            <NavLink to="/talep" className={({isActive}) => isActive ? styles.active : ''}>
+            <NavLink to="/taleplerim" className={({isActive}) => isActive ? styles.active : ''}>
               <ListAltOutlinedIcon />
-              <span>Talepte bulun</span>
+              <span>Taleplerim</span>
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/talep-olustur" className={({isActive}) => isActive ? styles.active : ''}>
+              <ListAltOutlinedIcon />
+              <span>Talepte Bulun</span>
             </NavLink>
           </li>
           <li>

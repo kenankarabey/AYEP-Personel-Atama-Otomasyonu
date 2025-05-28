@@ -31,21 +31,8 @@ const ProfilePage: React.FC = () => {
     }
     try {
       const parsed = JSON.parse(localUser);
-      // Supabase'den güncel kullanıcıyı çek
-      supabase
-        .from('users')
-        .select('*')
-        .eq('sicil_no', parsed.sicil_no)
-        .single()
-        .then(({ data, error }) => {
-          if (error || !data) {
-            navigate('/login');
-          } else {
-            setForm(data);
-            setAvatar(data.foto_url || '/img/user.jpg');
-            localStorage.setItem('user', JSON.stringify(data));
-          }
-        });
+      setForm(parsed);
+      setAvatar(parsed.foto_url || '/img/user.jpg');
     } catch {
       navigate('/login');
     }
