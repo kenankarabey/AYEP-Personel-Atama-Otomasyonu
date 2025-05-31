@@ -5,10 +5,15 @@ import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
+import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
+import HomeIcon from '@mui/icons-material/Home';
+
+
 
 type SidebarProps = {
   collapsed: boolean;
   setCollapsed: (v: boolean) => void;
+  yetki?: string;
 };
 
 // Toggle butonu için class ve style belirleyen fonksiyon
@@ -25,11 +30,12 @@ function getToggleButtonProps(isMobile: boolean, collapsed: boolean, styles: any
   };
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
+const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed, yetki }) => {
   const location = useLocation();
   const [user, setUser] = useState({ ad_soyad: '', foto_url: '' });
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
   const [mobileSidebarState, setMobileSidebarState] = useState<'closed' | 'open' | 'closing'>('closed');
+  const isAdmin = yetki === 'admin';
 
   useEffect(() => {
     const localUser = localStorage.getItem('user');
@@ -117,24 +123,61 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
               </button>
               <nav className={styles.sidebarNav}>
                 <ul>
-                  <li>
-                    <NavLink to="/taleplerim" className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
-                      <ListAltOutlinedIcon />
-                      <span>Taleplerim</span>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/talep-olustur" className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
-                      <ListAltOutlinedIcon />
-                      <span>Talepte Bulun</span>
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/profile" className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
-                      <AccountCircleIcon />
-                      <span>Profil</span>
-                    </NavLink>
-                  </li>
+                  {isAdmin ? (
+                    <>
+                      <li>
+                        <NavLink to="/admin" end className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
+                          <HomeIcon />
+                          <span>Admin Anasayfa</span>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/admin/gelen-talepler" className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
+                          <AssignmentOutlinedIcon />
+                          <span>Gelen Talepler</span>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/admin/duyuru-yayinla" className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
+                          <ListAltOutlinedIcon />
+                          <span>Duyuru Yayınla</span>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/admin/profile" className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
+                          <AccountCircleIcon />
+                          <span>Admin Profil</span>
+                        </NavLink>
+                      </li>
+                    </>
+                  ) : (
+                    <>
+                      <li>
+                        <NavLink to="/" className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
+                          <HomeIcon />
+                          <span>Anasayfa</span>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/taleplerim" className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
+                          <AssignmentOutlinedIcon />
+                          <span>Taleplerim</span>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/talep-olustur" className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
+                          <ListAltOutlinedIcon />
+                          <span>Talepte Bulun</span>
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink to="/profile" className={({isActive}) => isActive ? styles.active : ''} onClick={handleMobileToggle}>
+                          <AccountCircleIcon />
+                          <span>Profil</span>
+                        </NavLink>
+                      </li>
+                    </>
+                  )}
                 </ul>
               </nav>
               <div className={styles.userProfile}>
@@ -194,24 +237,61 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, setCollapsed }) => {
       })()}
       <nav className={styles.sidebarNav}>
         <ul>
-          <li>
-            <NavLink to="/taleplerim" className={({isActive}) => isActive ? styles.active : ''}>
-              <ListAltOutlinedIcon />
-              <span>Taleplerim</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/talep-olustur" className={({isActive}) => isActive ? styles.active : ''}>
-              <ListAltOutlinedIcon />
-              <span>Talepte Bulun</span>
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to="/profile" className={({isActive}) => isActive ? styles.active : ''}>
-              <AccountCircleIcon />
-              <span>Profil</span>
-            </NavLink>
-          </li>
+          {isAdmin ? (
+            <>
+              <li>
+                <NavLink to="/admin" end className={({isActive}) => isActive ? styles.active : ''}>
+                  <HomeIcon />
+                  <span>Admin Anasayfa</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/admin/gelen-talepler" className={({isActive}) => isActive ? styles.active : ''}>
+                  <AssignmentOutlinedIcon />
+                  <span>Gelen Talepler</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/admin/duyuru-yayinla" className={({isActive}) => isActive ? styles.active : ''}>
+                  <ListAltOutlinedIcon />
+                  <span>Duyuru Yayınla</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/admin/profile" className={({isActive}) => isActive ? styles.active : ''}>
+                  <AccountCircleIcon />
+                  <span>Admin Profil</span>
+                </NavLink>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <NavLink to="/" className={({isActive}) => isActive ? styles.active : ''}>
+                  <HomeIcon />
+                  <span>Anasayfa</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/taleplerim" className={({isActive}) => isActive ? styles.active : ''}>
+                  <AssignmentOutlinedIcon />
+                  <span>Taleplerim</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/talep-olustur" className={({isActive}) => isActive ? styles.active : ''}>
+                  <ListAltOutlinedIcon />
+                  <span>Talepte Bulun</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/profile" className={({isActive}) => isActive ? styles.active : ''}>
+                  <AccountCircleIcon />
+                  <span>Profil</span>
+                </NavLink>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
       <div className={styles.userProfile}>

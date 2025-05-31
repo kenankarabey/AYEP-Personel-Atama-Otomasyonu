@@ -12,6 +12,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import PasswordIcon from '@mui/icons-material/Password';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
+import { useAlert } from '../../components/AlertContext';
 
 const ProfilePage: React.FC = () => {
   const [form, setForm] = useState<any>(null);
@@ -22,6 +23,7 @@ const ProfilePage: React.FC = () => {
   const [passwordForm, setPasswordForm] = useState({ current: '', new: '', confirm: '' });
   const [passwordError, setPasswordError] = useState('');
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     const localUser = localStorage.getItem('user');
@@ -61,9 +63,9 @@ const ProfilePage: React.FC = () => {
     if (!error) {
       localStorage.setItem('user', JSON.stringify(form));
       setEditMode(false);
-      alert('Profil başarıyla güncellendi!');
+      showAlert('Profil başarıyla güncellendi!', 'success');
     } else {
-      alert('Profil güncellenemedi!');
+      showAlert('Profil güncellenemedi!', 'error');
     }
   };
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,6 +133,7 @@ const ProfilePage: React.FC = () => {
       setForm({ ...form, sifre: passwordForm.new });
       localStorage.setItem('user', JSON.stringify({ ...form, sifre: passwordForm.new }));
       setPasswordError('Şifre başarıyla değiştirildi!');
+      showAlert('Şifreniz başarıyla güncellendi', 'success');
       setPasswordForm({ current: '', new: '', confirm: '' });
       setTimeout(() => { window.location.reload(); }, 1000);
     } else {
@@ -200,11 +203,11 @@ const ProfilePage: React.FC = () => {
             <div className={styles.profileForm}>
               <div className={styles.formGroup}>
                 <label>Ad Soyad</label>
-                <input type="text" name="ad_soyad" value={form.ad_soyad || ''} onChange={handleInputChange} disabled={!editMode} />
+                <input type="text" name="ad_soyad" value={form.ad_soyad || ''} onChange={handleInputChange} disabled />
               </div>
               <div className={styles.formGroup}>
                 <label>E-posta</label>
-                <input type="email" name="email" value={form.email || ''} onChange={handleInputChange} disabled={!editMode} />
+                <input type="email" name="email" value={form.email || ''} onChange={handleInputChange} disabled />
               </div>
               <div className={styles.formGroup}>
                 <label>Şifre</label>

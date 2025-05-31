@@ -3,12 +3,12 @@ import styles from './Talep.module.css';
 import BusinessIcon from '@mui/icons-material/Business';
 import CloseIcon from '@mui/icons-material/Close';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import GavelIcon from '@mui/icons-material/Gavel';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import dayjs from 'dayjs';
 import SendIcon from '@mui/icons-material/Send';
 import { supabase } from '../../supabaseClient';
+import { useAlert } from '../../components/AlertContext';
 
 const TALEP_TURLERI = [
   'Yer Değişikliği',
@@ -106,6 +106,7 @@ const TalepPage: React.FC = () => {
   const [talepTuruInput, setTalepTuruInput] = useState('');
   const [loading, setLoading] = useState(false);
   const maxTercih = 4;
+  const { showAlert } = useAlert();
 
   useEffect(() => {
     const fetchTalepler = async () => {
@@ -198,10 +199,12 @@ const TalepPage: React.FC = () => {
           aciklama: form.aciklama,
           dosya_url,
           durum: 'Beklemede',
+          talepte_bulunan: user.ad_soyad,
         },
       ]);
       if (!insertError) {
         setSuccess('Talebiniz başarıyla oluşturuldu!');
+        showAlert('Talebiniz başarıyla oluşturuldu!', 'success');
         setForm({ talepTuru: '', adliyeTercihleri: [], aciklama: '', dosya: null });
         setTalepTuruInput('');
         // Talepleri tekrar çek

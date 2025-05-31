@@ -1,0 +1,43 @@
+.duyuruRoot {
+  min-height: 100vh;
+  background: #f6f7fa;
+  padding: 0;
+}
+.mainContent {
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin-left: 280px;
+  transition: margin-left 0.3s cubic-bezier(.4,0,.2,1);
+  padding: 40px 0;
+  align-items: center;
+}
+.collapsed .mainContent {
+  margin-left: 70px;
+}
+.headerCard {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+  padding: 32px 40px 24px 40px;
+  margin-bottom: 32px;
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.dashboardCard {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+  padding: 32px 40px 24px 40px;
+  margin-bottom: 32px;
+  width: 100%;
+  max-width: 1100px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: stretch;
+} 

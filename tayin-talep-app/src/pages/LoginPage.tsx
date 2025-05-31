@@ -11,6 +11,7 @@ import adaletLogo from '../assets/adalet-logo.png';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import { useAlert } from '../components/AlertContext';
 
 const LoginPage: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,6 +20,7 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { showAlert } = useAlert();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,11 +38,13 @@ const LoginPage: React.FC = () => {
     setLoading(false);
     if (error || !data) {
       setError('Sicil No veya şifre hatalı!');
+      showAlert('Sicil No veya şifre hatalı!', 'error');
       return;
     }
     // Doğrudan Supabase'den gelen kullanıcıyı kaydet
     localStorage.setItem('user', JSON.stringify(data));
     console.log('Kaydedilen kullanıcı:', data); // LOG
+    showAlert('Başarıyla giriş yapıldı', 'success');
     navigate('/profile');
   };
 
