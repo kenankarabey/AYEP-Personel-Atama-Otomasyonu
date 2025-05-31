@@ -40,4 +40,37 @@
   flex-direction: column;
   gap: 32px;
   align-items: stretch;
+}
+.talepTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+.talepTable th, .talepTable td {
+  padding: 8px;
+  border: 1px solid #eee;
+  text-align: left;
+}
+.talepTable th {
+  background: #f6f7fa;
+  color: #d7292a;
+  font-weight: 600;
+}
+.talepTable tr:nth-child(even) {
+  background: #fafbfc;
+}
+.talepTable button {
+  transition: background 0.18s, color 0.18s, border 0.18s;
+}
+.talepTable button:hover {
+  filter: brightness(0.95);
+}
+.talepTable button:last-child:hover {
+  background: #c82333;
+  color: #fff;
+}
+.talepTable button:first-child:hover {
+  background: #fff0f0;
+  border: 1.5px solid #d7292a;
+  color: #d7292a;
 } 

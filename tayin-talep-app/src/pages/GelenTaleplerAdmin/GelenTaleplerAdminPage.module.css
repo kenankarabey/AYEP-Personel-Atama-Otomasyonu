@@ -40,4 +40,128 @@
   flex-direction: column;
   gap: 32px;
   align-items: stretch;
+}
+.talepTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+}
+.talepTable th, .talepTable td {
+  padding: 8px;
+  border: 1px solid #eee;
+  text-align: left;
+}
+.talepTable th {
+  background: #f6f7fa;
+  color: #d7292a;
+  font-weight: 600;
+}
+.talepTable tr:nth-child(even) {
+  background: #fafbfc;
+}
+.talepTable button {
+  transition: background 0.18s, color 0.18s, border 0.18s;
+}
+.talepTable button:hover {
+  filter: brightness(0.95);
+}
+.talepTable button:last-child:hover {
+  background: #c82333;
+  color: #fff;
+}
+.talepTable button:first-child:hover {
+  background: #fff0f0;
+  border: 1.5px solid #d7292a;
+  color: #d7292a;
+}
+.modalSelect {
+  width: 100%;
+  border: none;
+  background: none;
+  outline: none;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
+}
+.modalOption {
+  background: #f6f7fa;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(22,26,74,0.08);
+  padding: 16px 28px;
+  font-size: 1.08rem;
+  color: #232a4d;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: background 0.18s, border 0.18s, color 0.18s;
+  margin: 0 4px;
+  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modalOption.selected, .modalOption:focus, .modalOption:hover {
+  background: #fff;
+  border: 2px solid #d7292a;
+  color: #d7292a;
+}
+.durumBeklemede {
+  background: none;
+  color: #b8860b !important;
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+.durumOnaylandi {
+  background: none;
+  color: #1bbf4c !important;
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+.durumRedEdildi {
+  background: none;
+  color: #c82333 !important;
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+.modalBtn {
+  transition: background 0.18s, color 0.18s, border 0.18s, box-shadow 0.18s;
+  font-weight: 600;
+  font-size: 16px;
+  border-radius: 8px;
+  padding: 10px 24px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(22,26,74,0.08);
+}
+.modalBtnSil {
+  background: #ff4040;
+  color: #fff;
+}
+.modalBtnSil:hover {
+  background: #c82333;
+  color: #fff;
+}
+.modalBtnKaydet {
+  background: #1bbf4c;
+  color: #fff;
+}
+.modalBtnKaydet:hover {
+  background: #158f36;
+  color: #fff;
+}
+.modalBtnVazgec {
+  background: #e5e7eb;
+  color: #232a4d;
+}
+.modalBtnVazgec:hover {
+  background: #bdbdbd;
+  color: #232a4d;
+}
+.talepTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 16px;
+  color: #d7292a;
 } 
