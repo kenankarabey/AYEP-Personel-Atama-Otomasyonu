@@ -22,10 +22,18 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { showAlert } = useAlert();
   const isMobile = window.innerWidth <= 600;
+  const [open, setOpen] = useState(() => {
+    const stored = localStorage.getItem('stickyNoteOpen');
+    return stored === null ? true : stored === 'true';
+  });
 
   useEffect(() => {
     document.title = 'AYEP-Personel Tayin Talep Uygulaması';
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem('stickyNoteOpen', open ? 'true' : 'false');
+  }, [open]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,9 +56,10 @@ const LoginPage: React.FC = () => {
     }
     // Doğrudan Supabase'den gelen kullanıcıyı kaydet
     localStorage.setItem('user', JSON.stringify(data));
+    localStorage.setItem('stickyNoteOpen', 'false'); // Girişte sticky note'u kapat
     console.log('Kaydedilen kullanıcı:', data); // LOG
     showAlert('Başarıyla giriş yapıldı', 'success');
-    navigate('/profile');
+    navigate('/');
   };
 
   return (
