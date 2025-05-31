@@ -17,6 +17,7 @@ const GelenTaleplerAdminPage: React.FC = () => {
   const [modalLoading, setModalLoading] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [deleteTalepId, setDeleteTalepId] = useState<number|null>(null);
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 900;
 
   useEffect(() => {
     const fetchTalepler = async () => {
@@ -29,6 +30,10 @@ const GelenTaleplerAdminPage: React.FC = () => {
       setLoading(false);
     };
     fetchTalepler();
+  }, []);
+
+  useEffect(() => {
+    document.title = 'AYEP-Personel Tayin Talep Uygulaması';
   }, []);
 
   const handleDelete = (talepId: number) => {
@@ -73,56 +78,83 @@ const GelenTaleplerAdminPage: React.FC = () => {
           <p style={{fontSize:'1.08rem', color:'#666', marginTop:8}}>Sisteme gelen tüm tayin taleplerini aşağıda görebilirsiniz.</p>
         </div>
         <div className={styles.dashboardCard}>
-          {loading ? (
-            <div style={{textAlign:'center', color:'#888', fontSize:18}}>Yükleniyor...</div>
-          ) : (
-            <table className={styles.talepTable}>
-              <thead>
-                <tr>
-                  <th>Tarih</th>
-                  <th>Talep Türü</th>
-                  <th>Adliyeler</th>
-                  <th>Açıklama</th>
-                  <th>Dosya</th>
-                  <th>Durum</th>
-                  <th>Talepte Bulunan</th>
-                  <th>İşlemler</th>
-                </tr>
-              </thead>
-              <tbody>
-                {talepler.length === 0 ? (
-                  <tr><td colSpan={8} style={{textAlign:'center', color:'#888'}}>Hiç talep bulunamadı.</td></tr>
-                ) : talepler.map(talep => (
-                  <tr key={talep.id}>
-                    <td>{talep.tarih ? (talep.tarih.split('-').reverse().join('.')) : ''}</td>
-                    <td>{talep.talep_turu}</td>
-                    <td>{talep.adliye_tercihleri ? (Array.isArray(talep.adliye_tercihleri) ? talep.adliye_tercihleri.join(', ') : talep.adliye_tercihleri) : ''}</td>
-                    <td>{talep.aciklama}</td>
-                    <td>{talep.dosya_url ? <a href={talep.dosya_url} target="_blank" rel="noopener noreferrer" style={{color:'#d7292a', textDecoration:'underline'}}>Dosya</a> : <span style={{color:'#aaa'}}>Yok</span>}</td>
-                    <td
-                      className={
-                        talep.durum === 'Onaylandı' ? styles.durumOnaylandi :
-                        talep.durum === 'Red Edildi' ? styles.durumRedEdildi :
-                        styles.durumBeklemede
-                      }
-                    >
-                      {talep.durum}
-                    </td>
-                    <td>{talep.talepte_bulunan}</td>
-                    <td>
-                      <button onClick={() => handleEdit(talep)} style={{marginRight:8, background:'#f6f7fa', border:'1px solid #d7292a', color:'#d7292a', borderRadius:6, padding:'4px 12px', cursor:'pointer'}}>Düzenle</button>
-                      <button onClick={() => handleDelete(talep.id)} style={{background:'#ff4040', border:'none', color:'#fff', borderRadius:6, padding:'4px 12px', cursor:'pointer'}}>Sil</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          {!isMobile && (
+            <div className={styles.talepTableWrapper} style={{marginBottom:0}}>
+              {loading ? (
+                <div style={{textAlign:'center', color:'#888', fontSize:18}}>Yükleniyor...</div>
+              ) : (
+                <table className={styles.talepTable}>
+                  <thead>
+                    <tr>
+                      <th>Tarih</th>
+                      <th>Talep Türü</th>
+                      <th>Adliyeler</th>
+                      <th>Açıklama</th>
+                      <th>Dosya</th>
+                      <th>Durum</th>
+                      <th>Talepte Bulunan</th>
+                      <th>İşlemler</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {talepler.length === 0 ? (
+                      <tr><td colSpan={8} style={{textAlign:'center', color:'#888'}}>Hiç talep bulunamadı.</td></tr>
+                    ) : talepler.map(talep => (
+                      <tr key={talep.id}>
+                        <td>{talep.tarih ? (talep.tarih.split('-').reverse().join('.')) : ''}</td>
+                        <td>{talep.talep_turu}</td>
+                        <td>{talep.adliye_tercihleri ? (Array.isArray(talep.adliye_tercihleri) ? talep.adliye_tercihleri.join(', ') : talep.adliye_tercihleri) : ''}</td>
+                        <td>{talep.aciklama}</td>
+                        <td>{talep.dosya_url ? <a href={talep.dosya_url} target="_blank" rel="noopener noreferrer" style={{color:'#d7292a', textDecoration:'underline'}}>Dosya</a> : <span style={{color:'#aaa'}}>Yok</span>}</td>
+                        <td className={
+                          talep.durum === 'Onaylandı' ? styles.durumOnaylandi :
+                          talep.durum === 'Red Edildi' ? styles.durumRedEdildi :
+                          styles.durumBeklemede
+                        }>
+                          {talep.durum}
+                        </td>
+                        <td>{talep.talepte_bulunan}</td>
+                        <td>
+                          <button onClick={() => handleEdit(talep)} style={{marginRight:8, background:'#f6f7fa', border:'1px solid #d7292a', color:'#d7292a', borderRadius:6, padding:'4px 12px', cursor:'pointer'}}>Düzenle</button>
+                          <button onClick={() => handleDelete(talep.id)} style={{background:'#ff4040', border:'none', color:'#fff', borderRadius:6, padding:'4px 12px', cursor:'pointer'}}>Sil</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              )}
+            </div>
+          )}
+          {isMobile && (
+            <div className={styles.adminTalepCardWrapper} style={{marginTop:0}}>
+              {talepler.map(talep => (
+                <div key={talep.id} className={styles.adminTalepCard}>
+                  <div className={styles.adminTalepCardHeader}>
+                    <span className={styles.adminTalepCardTitle}>{talep.talep_turu}</span>
+                    <span className={
+                      talep.durum === 'Onaylandı' ? styles.durumOnaylandi :
+                      talep.durum === 'Red Edildi' ? styles.durumRedEdildi :
+                      styles.durumBeklemede
+                    }>{talep.durum}</span>
+                  </div>
+                  <div className={styles.adminTalepCardField}><b>Adliyeler:</b> {talep.adliye_tercihleri ? (Array.isArray(talep.adliye_tercihleri) ? talep.adliye_tercihleri.join(', ') : talep.adliye_tercihleri) : ''}</div>
+                  <div className={styles.adminTalepCardField}><b>Açıklama:</b> {talep.aciklama}</div>
+                  <div className={styles.adminTalepCardField}><b>Dosya:</b> {talep.dosya_url ? <a href={talep.dosya_url} target="_blank" rel="noopener noreferrer" style={{color:'#d7292a', textDecoration:'underline'}}>Dosya</a> : <span style={{color:'#aaa'}}>Yok</span>}</div>
+                  <div className={styles.adminTalepCardField}><b>Tarih:</b> {talep.tarih ? (talep.tarih.split('-').reverse().join('.')) : ''}</div>
+                  <div className={styles.adminTalepCardField}><b>Talepte Bulunan:</b> {talep.talepte_bulunan}</div>
+                  <div className={styles.adminTalepCardBtnGroup}>
+                    <button onClick={() => handleEdit(talep)} className={styles.adminTalepEditBtn}>Düzenle</button>
+                    <button onClick={() => handleDelete(talep.id)} className={styles.adminTalepDeleteBtn}>Sil</button>
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
         {/* Modal */}
         {modalOpen && (
           <div style={{position:'fixed', top:0, left:0, width:'100vw', height:'100vh', background:'rgba(0,0,0,0.18)', zIndex:9999, display:'flex', alignItems:'center', justifyContent:'center'}}>
-            <div style={{background:'#fff', borderRadius:14, boxShadow:'0 4px 32px rgba(22,26,74,0.18)', padding:32, minWidth:320, minHeight:120, display:'flex', flexDirection:'column', gap:18, alignItems:'center'}}>
+            <div className={styles.modalContainer} style={{background:'#fff', borderRadius:14, boxShadow:'0 4px 32px rgba(22,26,74,0.18)', padding:32, minWidth:320, minHeight:120, display:'flex', flexDirection:'column', gap:18, alignItems:'center'}}>
               <h3 style={{color:'#d7292a', marginBottom:8}}>Durum Güncelle</h3>
               <div className={styles.modalSelect}>
                 {DURUM_OPTIONS.map(opt => (

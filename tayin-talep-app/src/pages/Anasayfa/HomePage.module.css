@@ -49,12 +49,12 @@
 }
 
 .istatistikGrid {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 32px;
   margin-bottom: 32px;
   width: 100%;
   box-sizing: border-box;
-
 }
 .istatistikCard {
   background: #fff;
@@ -123,12 +123,16 @@
   font-size: 1rem;
 }
 .sonIslemDurum.onay {
-  background: #e3f9e7;
-  color: #1bbf4c;
+  background: #e3f9e7 !important;
+  color: #1bbf4c !important;
 }
 .sonIslemDurum.bekle {
-  background: #ffeaea;
-  color: #d7292a;
+  background: #fff8e1 !important;
+  color: #b8860b !important;
+}
+.sonIslemDurum.red {
+  background: #ffeaea !important;
+  color: #d7292a !important;
 }
 .sonIslemTarih {
   color: #888;
@@ -218,13 +222,46 @@
     padding-right: 10px;
   }
   .istatistikGrid {
-    flex-direction: column;
+    grid-template-columns: 1fr;
     gap: 18px;
     align-items: stretch;
   }
 }
 @media (max-width: 600px) {
-  .karsilamaPanel, .istatistikGrid, .sonIslemlerPanel, .duyurularPanel, .sssPanel {
+  .mainContent {
+    align-items: stretch !important;
+    padding: 0 !important;
+    margin-left: 0 !important;
+    width: 100vw !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+  }
+  .karsilamaPanel {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 10px 2px !important;
+    border-radius: 10px !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+    text-align: center !important;
+  }
+  .karsilamaAvatar {
+    width: 60px !important;
+    height: 60px !important;
+    margin: 0 auto 8px auto !important;
+    display: block !important;
+  }
+  .karsilamaPanel h2, .karsilamaPanel div {
+    text-align: center !important;
+    width: 100%;
+  }
+  .karsilamaIsim {
+    display: inline-block;
+  }
+  .istatistikGrid, .dashboardCard, .sonIslemlerPanel, .duyurularPanel, .sssPanel {
     padding: 10px 2px;
     border-radius: 10px;
   }

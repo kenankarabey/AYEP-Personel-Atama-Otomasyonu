@@ -40,6 +40,10 @@ const ProfilePage: React.FC = () => {
     }
   }, [navigate]);
 
+  useEffect(() => {
+    document.title = 'AYEP-Personel Tayin Talep Uygulaması';
+  }, []);
+
   if (!form) return null;
 
   const handleEdit = () => setEditMode(true);

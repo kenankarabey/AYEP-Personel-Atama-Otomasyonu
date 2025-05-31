@@ -228,7 +228,7 @@
   width: 100vw;
   height: 100vh;
   background: rgba(0,0,0,0.35);
-  z-index: 10999;
+  z-index: 2147483646;
 }
 
 /* Mobilde sidebar tam ekran */
@@ -240,11 +240,12 @@
   max-width: 320px;
   height: 100vh;
   background: #fff;
-  z-index: 11000;
+  z-index: 2147483647;
   box-shadow: 2px 0 16px rgba(0,0,0,0.12);
   display: flex;
   flex-direction: column;
   animation: slideInSidebar 0.4s cubic-bezier(.4,0,.2,1);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 @keyframes slideInSidebar {
   from { transform: translateX(-100%); }

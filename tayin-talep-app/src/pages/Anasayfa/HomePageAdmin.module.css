@@ -84,36 +84,118 @@
   font-size: 1rem;
 }
 @media (max-width: 1000px) {
-  .adminKarsilamaPanel, .adminDashboardGrid {
+  .adminKarsilamaPanel, .adminDashboardGrid, .sonIslemlerPanel, .duyurularPanel, .sssPanel {
     max-width: 100vw;
     padding-left: 10px;
     padding-right: 10px;
   }
-}
-@media (max-width: 600px) {
-  .adminKarsilamaPanel {
-    padding: 12px 2px 10px 2px;
-    border-radius: 10px;
-    flex-direction: column;
-    gap: 12px;
-    align-items: flex-start;
-  }
-  .adminAvatar {
-    width: 60px;
-    height: 60px;
-  }
-  .adminHosgeldin {
-    font-size: 1.2rem;
-  }
   .adminDashboardGrid {
     grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 0 2px;
+    gap: 18px;
+    align-items: stretch;
+  }
+}
+@media (max-width: 600px) {
+  .adminMainContent {
+    align-items: stretch !important;
+    padding: 0 !important;
+    margin-left: 0 !important;
+    width: 100vw !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+  }
+  .adminKarsilamaPanel {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 10px 2px !important;
+    border-radius: 10px !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+    text-align: center !important;
+  }
+  .adminAvatar {
+    width: 60px !important;
+    height: 60px !important;
+    margin: 0 auto 8px auto !important;
+    display: block !important;
+  }
+  .adminKarsilamaPanel .adminAciklama {
+    display: none !important;
+  }
+  .adminDashboardGrid {
+    width: 100% !important;
+    max-width: 100vw !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+    margin-bottom: 10px !important;
+    gap: 0 !important;
+  }
+  .adminCard, .sonIslemlerPanel, .duyurularPanel, .sssPanel, .dashboardCard {
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
   }
   .adminCard {
-    padding: 14px 8px;
-    border-radius: 10px;
+    padding: 10px 4px !important;
+    border-radius: 10px !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    box-sizing: border-box;
+    align-items: center !important;
+    text-align: center !important;
+    margin: 0 !important;
   }
+  .sonIslemlerPanel {
+    font-size: 0.95rem !important;
+    padding: 4px 1px !important;
+    min-width: 0 !important;
+    max-width: 100vw !important;
+    border-radius: 8px !important;
+    margin-bottom: 6px !important;
+    line-height: 1.18 !important;
+    gap: 2px !important;
+  }
+  .sonIslemItem {
+    gap: 8px !important;
+    padding: 6px 0 !important;
+    font-size: 0.95rem !important;
+  }
+  .sonIslemlerBaslik {
+    font-size: 1.05rem !important;
+    margin-bottom: 8px !important;
+  }
+  .sonIslemDurum.onay {
+    background: #e3f9e7 !important;
+    color: #1bbf4c !important;
+  }
+  .sonIslemDurum.bekle {
+    background: #fff8e1 !important;
+    color: #b8860b !important;
+  }
+  .sonIslemDurum.red {
+    background: #ffeaea !important;
+    color: #d7292a !important;
+  }
+}
+@media (min-width: 601px) {
+  .adminDashboardGrid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 32px !important;
+    width: 100% !important;
+    max-width: 1100px !important;
+    margin: 0 auto 32px auto !important;
+  }
+}
+.adminCard:hover {
+  box-shadow: 0 2px 16px rgba(22,26,74,0.08) !important;
+  transform: none !important;
 }
 .dashboardCard {
   background: #fff;

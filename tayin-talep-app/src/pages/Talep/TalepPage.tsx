@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import SendIcon from '@mui/icons-material/Send';
 import { supabase } from '../../supabaseClient';
 import { useAlert } from '../../components/AlertContext';
+import InfoIcon from '@mui/icons-material/Info';
 
 const TALEP_TURLERI = [
   'Yer Değişikliği',
@@ -107,6 +108,8 @@ const TalepPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const maxTercih = 4;
   const { showAlert } = useAlert();
+  const [showModal, setShowModal] = useState(false);
+  const [pendingSubmit, setPendingSubmit] = useState(false);
 
   useEffect(() => {
     const fetchTalepler = async () => {
@@ -172,65 +175,97 @@ const TalepPage: React.FC = () => {
     return err;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleModalOpen = (e: React.FormEvent) => {
     e.preventDefault();
     const err = validate();
     setErrors(err);
     if (Object.keys(err).length === 0) {
-      setLoading(true);
-      const localUser = localStorage.getItem('user');
-      if (!localUser) return;
-      const user = JSON.parse(localUser);
-      let dosya_url = '';
-      if (form.dosya) {
-        const fileName = `${user.id}_${Date.now()}_${form.dosya.name}`;
-        const { data: uploadData, error: uploadError } = await supabase.storage.from('talep-dosya').upload(fileName, form.dosya, { upsert: true });
-        if (!uploadError) {
-          const { publicUrl } = supabase.storage.from('talep-dosya').getPublicUrl(fileName).data;
-          dosya_url = publicUrl;
-        }
-      }
-      const { error: insertError } = await supabase.from('talepler').insert([
-        {
-          kullanici_id: user.id,
-          tarih: dayjs().format('YYYY-MM-DD'),
-          talep_turu: form.talepTuru,
-          adliye_tercihleri: form.adliyeTercihleri,
-          aciklama: form.aciklama,
-          dosya_url,
-          durum: 'Beklemede',
-          talepte_bulunan: user.ad_soyad,
-        },
-      ]);
-      if (!insertError) {
-        setSuccess('Talebiniz başarıyla oluşturuldu!');
-        showAlert('Talebiniz başarıyla oluşturuldu!', 'success');
-        setForm({ talepTuru: '', adliyeTercihleri: [], aciklama: '', dosya: null });
-        setTalepTuruInput('');
-        // Talepleri tekrar çek
-        const { data } = await supabase
-          .from('talepler')
-          .select('*')
-          .eq('kullanici_id', user.id)
-          .order('created_at', { ascending: false });
-        if (data) setTalepler(data);
-      }
-      setLoading(false);
-      setTimeout(() => setSuccess(''), 2000);
+      setShowModal(true);
     }
+  };
+  const handleModalOnay = async () => {
+    setShowModal(false);
+    setPendingSubmit(true);
+    await handleSubmitCore();
+    setPendingSubmit(false);
+  };
+  const handleModalVazgec = () => {
+    setShowModal(false);
+  };
+
+  const handleSubmitCore = async () => {
+    setLoading(true);
+    const localUser = localStorage.getItem('user');
+    if (!localUser) return;
+    const user = JSON.parse(localUser);
+    let dosya_url = '';
+    if (form.dosya) {
+      const fileName = `${user.id}_${Date.now()}_${form.dosya.name}`;
+      const { data: uploadData, error: uploadError } = await supabase.storage.from('talep-dosya').upload(fileName, form.dosya, { upsert: true });
+      if (!uploadError) {
+        const { publicUrl } = supabase.storage.from('talep-dosya').getPublicUrl(fileName).data;
+        dosya_url = publicUrl;
+      }
+    }
+    const { error: insertError } = await supabase.from('talepler').insert([
+      {
+        kullanici_id: user.id,
+        tarih: dayjs().format('YYYY-MM-DD'),
+        talep_turu: form.talepTuru,
+        adliye_tercihleri: form.adliyeTercihleri,
+        aciklama: form.aciklama,
+        dosya_url,
+        durum: 'Beklemede',
+        talepte_bulunan: user.ad_soyad,
+      },
+    ]);
+    if (!insertError) {
+      setSuccess('Talebiniz başarıyla oluşturuldu!');
+      showAlert('Talebiniz başarıyla oluşturuldu!', 'success');
+      setForm({ talepTuru: '', adliyeTercihleri: [], aciklama: '', dosya: null });
+      setTalepTuruInput('');
+      // Talepleri tekrar çek
+      const { data } = await supabase
+        .from('talepler')
+        .select('*')
+        .eq('kullanici_id', user.id)
+        .order('created_at', { ascending: false });
+      if (data) setTalepler(data);
+    }
+    setLoading(false);
+    setTimeout(() => setSuccess(''), 2000);
   };
 
   return (
     <div className={styles.talepRoot}>
+      {/* Modal */}
+      {showModal && (
+        <div className={styles.talepModalOverlay}>
+          <div className={styles.talepModal}>
+            <button className={styles.talepModalClose} onClick={handleModalVazgec} aria-label="Kapat"><CloseIcon /></button>
+            <div className={styles.talepModalContent}>
+              <div className={styles.modalTitle}><InfoIcon style={{color:'#d7292a', fontSize:28}}/> Bilgileriniz Doğru mu?</div>
+              <div className={styles.modalField}><b>Talep Türü:</b> {form.talepTuru}</div>
+              <div className={styles.modalField}><b>Adliye Tercihleri:</b> {form.adliyeTercihleri.join(', ')}</div>
+              <div className={styles.modalField}><b>Açıklama:</b> {form.aciklama}</div>
+              <div className={styles.modalField}><b>Dosya:</b> {form.dosya ? form.dosya.name : 'Yok'}</div>
+            </div>
+            <div className={styles.talepModalButtons}>
+              <button className="vazgec" type="button" onClick={handleModalVazgec} disabled={pendingSubmit}>Vazgeç</button>
+              <button className="onay" type="button" onClick={handleModalOnay} disabled={pendingSubmit}>Evet, Onayla</button>
+            </div>
+          </div>
+        </div>
+      )}
       <div className={styles.talepCardWrapper}>
-      <div className={styles.talepCard}>
-        <h1 className={styles.talepTitle}>Tayin Talebi Oluştur</h1>
-        <p className={styles.talepDesc}>Lütfen tayin talebi için aşağıdaki formu doldurunuz.</p>
-      </div>
+        <div className={styles.talepCard}>
+          <h1 className={styles.talepTitle}>Tayin Talebi Oluştur</h1>
+          <p className={styles.talepDesc}>Lütfen tayin talebi için aşağıdaki formu doldurunuz.</p>
+        </div>
       </div>
       <div className={styles.talepCardWrapper}>
         <div className={styles.talepCard} tabIndex={0}>
-          <form className={styles.talepForm} onSubmit={handleSubmit}>
+          <form className={styles.talepForm} onSubmit={handleModalOpen}>
             <div className={styles.talepFormGroup}>
               <label style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 Tarih

@@ -62,6 +62,10 @@ const HomePageAdmin: React.FC = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    document.title = 'AYEP-Personel Tayin Talep Uygulaması';
+  }, []);
+
   // Dinamik margin ayarı
   const mainMarginLeft = collapsed ? 70 : 280;
   const cardMaxWidth = 1100;
@@ -78,19 +82,33 @@ const HomePageAdmin: React.FC = () => {
     marginBottom: 32,
   };
 
+  // Mobilde 2x2 grid için yardımcı fonksiyon
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 600;
+  function chunkArray<T>(arr: T[], size: number): T[][] {
+    const result = [];
+    for (let i = 0; i < arr.length; i += size) {
+      result.push(arr.slice(i, i + size));
+    }
+    return result;
+  }
+
   return (
     <div className={collapsed ? `${styles.adminRoot} ${styles.collapsed}` : styles.adminRoot}>
       <Sidebar collapsed={collapsed} setCollapsed={setCollapsed} yetki={user.yetki} />
       <div className={collapsed ? `${styles.adminMainContent} ${styles.collapsed}` : styles.adminMainContent}>
         {user && (
           <div className={styles.dashboardCard}>
-            <div style={{display:'flex', alignItems:'center', gap:32}}>
+            <div className={styles.adminKarsilamaPanel}>
               <img src={user.foto_url || '/img/user.jpg'} alt="Profil" className={styles.adminAvatar} />
               <div>
                 <div className={styles.adminHosgeldin}>
                   Hoş geldin, <span>{user.ad_soyad}</span>
                 </div>
-                <div style={{color:'#888', fontSize:'1.08rem', marginTop:8}}>Yönetici olarak sistemdeki genel durumu ve istatistikleri aşağıda görebilirsiniz.</div>
+                {!isMobile && (
+                  <div style={{color:'#888', fontSize:'1.08rem', marginTop:8}}>
+                    Yönetici olarak sistemdeki genel durumu ve istatistikleri aşağıda görebilirsiniz.
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -98,14 +116,26 @@ const HomePageAdmin: React.FC = () => {
         {/* Tek büyük dashboard kartı */}
         <div className={styles.dashboardCard}>
           {/* İstatistikler */}
-          <div className={styles.istatistikGrid} style={{marginBottom:32}}>
-            {stats.map((s, i) => (
-              <div className={styles.istatistikCard} key={i}>
-                <div className={styles.istatistikSayi}>{s.value}</div>
-                <div className={styles.istatistikLabel}>{s.title}</div>
-                <div className={styles.istatistikDesc}>{s.desc}</div>
-              </div>
-            ))}
+          <div className={styles.adminDashboardGrid}>
+            {isMobile
+              ? chunkArray(stats, 2).map((row, rowIdx) => (
+                  <div key={rowIdx} style={{ display: 'flex', width: '100%', gap: 10, marginBottom: rowIdx === 0 ? 10 : 0 }}>
+                    {row.map((item, i) => (
+                      <div className={styles.adminCard} key={item.title} style={{ flex: 1 }}>
+                        <div className={styles.adminCardValue}>{item.value}</div>
+                        <div className={styles.adminCardTitle}>{item.title}</div>
+                        <div className={styles.adminCardDesc}>{item.desc}</div>
+                      </div>
+                    ))}
+                  </div>
+                ))
+              : stats.map((item) => (
+                  <div className={styles.adminCard} key={item.title}>
+                    <div className={styles.adminCardValue}>{item.value}</div>
+                    <div className={styles.adminCardTitle}>{item.title}</div>
+                    <div className={styles.adminCardDesc}>{item.desc}</div>
+                  </div>
+                ))}
           </div>
           {/* Son Talepler */}
           <div className={styles.sonIslemlerPanel}>
@@ -116,7 +146,9 @@ const HomePageAdmin: React.FC = () => {
               <ul className={styles.sonIslemList}>
                 {sonTalepler.map((talep, i) => (
                   <li key={talep.id || i} className={styles.sonIslemItem}>
-                    <span style={{minWidth:120, color:'#888', fontSize:'0.98rem'}}>{talep.talepte_bulunan || ''}</span>
+                    {!isMobile && (
+                      <span style={{minWidth:120, color:'#888', fontSize:'0.98rem'}}>{talep.talepte_bulunan || ''}</span>
+                    )}
                     <span className={styles.sonIslemTuru}>{talep.talep_turu || talep.tur}</span>
                     <span className={
                       styles.sonIslemDurum + ' ' +
