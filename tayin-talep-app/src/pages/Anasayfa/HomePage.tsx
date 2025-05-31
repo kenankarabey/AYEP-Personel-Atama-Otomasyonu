@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './HomePage.module.css';
 import Sidebar from '../../components/Sidebar/Sidebar';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import InfoIcon from '@mui/icons-material/Info';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';

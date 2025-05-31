@@ -1,46 +1,72 @@
-# Getting Started with Create React App
+# Personel Tayin Talebi Uygulaması
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Proje Açıklaması
+Personel Tayin Talebi Uygulaması, kurum personelinin sicil numarası ve şifresiyle giriş yaparak tayin talebinde bulunmasını, taleplerini takip etmesini ve yöneticilerin bu talepleri yönetmesini sağlayan modern ve kullanıcı dostu bir web uygulamasıdır. Ayrıca yöneticiler için duyuru yayınlama ve gelen talepleri görüntüleme gibi ek yönetimsel özellikler de sunar.
 
-## Available Scripts
+## Özellikler
+- **Kullanıcı Girişi:** Personel, sicil numarası ve şifresiyle güvenli giriş yapar.
+- **Profil Görüntüleme:** Giriş yapan personel, kendisine ait temel bilgileri görüntüleyebilir.
+- **Tayin Talebi Oluşturma:** Personel, tercih listesinden adliye seçerek yeni tayin talebi oluşturabilir.
+- **Taleplerim:** Personel, daha önce oluşturduğu talepleri başvuru tarihi ve talep türüyle birlikte görebilir.
+- **Responsive Tasarım:** Mobil ve tablet cihazlara uyumlu, modern ve sade arayüz.
+- **Form Doğrulama:** Tüm formlarda kullanıcıya açıklayıcı geri bildirimler sunan doğrulama mekanizmaları.
+- **Akıcı Sayfa Geçişleri:** Tüm sayfalar arası geçişler hızlı ve kullanıcı dostudur.
+- **Örnek Veriler:** Uygulama, örnek adliye ve kullanıcı verileriyle çalışır.
 
-In the project directory, you can run:
+### Admin Özellikleri
+- **Duyuru Yayınlama:** Yöneticiler, sisteme yeni duyurular ekleyebilir ve mevcut duyuruları yönetebilir.
+- **Gelen Talepleri Görüntüleme:** Yöneticiler, tüm personel tarafından oluşturulan tayin taleplerini detaylı şekilde görebilir.
+- **Talep Detayları:** Her bir talebin başvuru tarihi, talep türü, personel bilgileri ve durumu görüntülenebilir.
+- **Yönetici Ana Sayfası:** Yöneticiler için özel bir ana sayfa ve navigasyon menüsü.
+- **Kullanıcı ve Talep Yönetimi:** (Opsiyonel) Taleplerin durumunu güncelleme, başvuruları filtreleme gibi ek yönetimsel işlemler.
 
-### `npm start`
+## Kullanılan Teknolojiler
+- **React** (TypeScript)
+- **Material UI (MUI)**
+- **React Router**
+- **React Icons**
+- **Day.js**
+- **CSS Modules**
+- **Supabase** (veritabanı ve kimlik doğrulama için)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Kurulum ve Çalıştırma
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+1. **Depoyu Klonlayın:**
+   ```bash
+   git clone https://github.com/kullanici-adi/tayin-talep-app.git
+   cd tayin-talep-app
+   ```
 
-### `npm test`
+2. **Bağımlılıkları Yükleyin:**
+   ```bash
+   npm install
+   ```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. **Supabase Ayarları:**
+   - `src/supabaseClient.ts` dosyasındaki `SUPABASE_URL` ve `SUPABASE_ANON_KEY` alanlarını kendi Supabase projenize göre güncelleyin.
+   - Supabase üzerinde aşağıdaki tabloları oluşturun:
+     - **users**: id, sicil_no, ad, soyad, sifre, rol
+     - **talepler**: id, user_id, adliye, talep_tarihi, talep_turu, durum
+     - **duyurular**: id, baslik, icerik, yayin_tarihi
 
-### `npm run build`
+4. **Uygulamayı Başlatın:**
+   ```bash
+   npm start
+   ```
+   Uygulama, varsayılan olarak [http://localhost:3000](http://localhost:3000) adresinde çalışacaktır.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Proje Yapısı
+- `src/pages/LoginPage`: Giriş ekranı
+- `src/pages/Profile`: Profil görüntüleme
+- `src/pages/Talep`: Tayin talebi oluşturma
+- `src/pages/Taleplerim`: Personelin taleplerini listeleme
+- `src/pages/Anasayfa`: Personel ve admin ana sayfa
+- `src/pages/DuyuruYayinlaAdmin`: Duyuru yayınlama (admin)
+- `src/pages/GelenTaleplerAdmin`: Gelen taleplerin yönetimi (admin)
+- `src/components/Sidebar`: Navigasyon menüsü ve yardımcı bileşenler
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Katkı Sağlama
+Katkıda bulunmak isterseniz lütfen bir fork oluşturun, değişikliklerinizi ayrı bir dalda yapın ve pull request gönderin.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Lisans
+Bu proje MIT lisansı ile lisanslanmıştır.
