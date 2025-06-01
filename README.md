@@ -116,23 +116,4 @@ Düzenle
 npm start
 Varsayılan olarak uygulama şu adreste çalışacaktır: http://localhost:3000
 
-🗂️ Proje Yapısı
 
-cpp
-Kopyala
-Düzenle
-src/
-│
-├── components/
-│   └── Sidebar          // Navigasyon menüsü
-│
-├── pages/
-│   ├── Anasayfa         // Giriş sonrası yönlendirme sayfası
-│   ├── LoginPage        // Kullanıcı giriş ekranı
-│   ├── Profile          // Profil görüntüleme
-│   ├── Talep            // Tayin talebi oluşturma
-│   ├── Taleplerim       // Personel taleplerinin listesi
-│   ├── DuyuruYayinlaAdmin  // Admin duyuru ekranı
-│   └── GelenTaleplerAdmin // Admin gelen talepler ekranı
-│
-└── supabaseClient.ts     // Supabase yapılandırması
