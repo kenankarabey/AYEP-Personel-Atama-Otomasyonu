@@ -61,59 +61,34 @@ Supabase (Veritabanı & Kimlik Doğrulama)
 
 ⚙️ Kurulum ve Çalıştırma
 
-Projeyi Klonlayın:
+Projeyi kullanmak için Node.js in kurulu olması lazım. Aşağıdaki linkten kurabilirsiniz :
 
-bash
-Kopyala
-Düzenle
-git clone https://github.com/kullanici-adi/tayin-talep-app.git
-cd tayin-talep-app
-Bağımlılıkları Yükleyin:
+https://nodejs.org/en
 
-bash
-Kopyala
-Düzenle
-npm install
-Supabase Ayarlarını Yapılandırın:
+Terminalde:
 
-src/supabaseClient.ts dosyasındaki SUPABASE_URL ve SUPABASE_ANON_KEY alanlarını kendi Supabase projenize göre güncelleyin.
+Projeyi seçin : 
 
-Supabase üzerinde şu tabloları oluşturun:
+ cd (dosya yolunu yapıştırın)
+ 
+ ardından
+ 
+ Bağımlılıkları Yükleyin
 
-users
-
-Alan	Tip
-id	UUID (PK)
-sicil_no	Text
-ad	Text
-soyad	Text
-sifre	Text
-rol	Text (personel / admin)
-
-talepler
-
-Alan	Tip
-id	UUID (PK)
-user_id	UUID (FK - users.id)
-adliye	Text
-talep_tarihi	Timestamp
-talep_turu	Text
-durum	Text
-
-duyurular
-
-Alan	Tip
-id	UUID (PK)
-baslik	Text
-icerik	Text
-yayin_tarihi	Timestamp
+ npm install 
 
 Uygulamayı Başlatın:
 
-bash
-Kopyala
-Düzenle
-npm start
+npm start 
+
+Uygulama otomatik olarak http://localhost:3000 adresinde açılır.
+
+Giriş Yapın ve Kullanın
+
+Giriş ekranında, Supabase veritabanında tanımlı bir kullanıcı (personel veya admin) ile giriş yapabilirsiniz.
+
+Personel ve admin için ilgili tüm özellikler hazırdır.
+
 Varsayılan olarak uygulama şu adreste çalışacaktır: http://localhost:3000
 
 
